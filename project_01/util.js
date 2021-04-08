@@ -22,6 +22,12 @@ module.exports = {
     const isCaptionFile = (file) => file.includes('.srt');
 
     return new Promise((resolve, reject) => resolve(files.filter(isCaptionFile)));
+  },
+  setPaths: (root, paths) => {
+    return new Promise((resolve, reject) => resolve(paths.map((path) => root.concat(path))))
+  },
+  readFiles: (files) => {
+    return new Promise((resolve, reject) => resolve(files.map(this.readFilePromisify.then())))
   }
 
 }
