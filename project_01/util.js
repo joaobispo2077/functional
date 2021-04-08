@@ -49,7 +49,43 @@ module.exports = {
   },
   spliteBySpaces: string => {
     return new Promise((resolve, reject) => resolve(string.split(' ')));
-  }
+  },
+  removeTimestamp: string => {
+    const regex = /((([0-9]{2}):){2}([0-9]{2}),([0-9]{3}))/g;
+    return new Promise((resolve, reject) => resolve(string.replace(regex, '')));
+  },
+  removeR: string => {
+    const regex = /\r/g;
+    return new Promise((resolve, reject) => resolve(string.replace(regex, '')));
+  },
+  removeArrow: string => {
+    const regex = /-->/g;
+    return new Promise((resolve, reject) => resolve(string.replace(regex, '')));
+  },
+  removeComman: string => {
+    const regex = /,/g;
+    return new Promise((resolve, reject) => resolve(string.replace(regex, '')));
+  },
+  removeDash: string => {
+    const regex = /-/g;
+    return new Promise((resolve, reject) => resolve(string.replace(regex, '')));
+  },
+  removeHTML: string => {
+    const regex = /(<\/?\s*[a-z][^>]*>)/g;
+    return new Promise((resolve, reject) => resolve(string.replace(regex, '')));
+  },
+  removeNumbers: string => {
+    const regex = /([0-9]a?)/g;
+    return new Promise((resolve, reject) => resolve(string.replace(regex, '')));
+  },
+  removeDot: string => {
+    const regex = /\./g;
+    return new Promise((resolve, reject) => resolve(string.replace(regex, '')));
+  },
+  removeQuotationMarks: string => {
+    const regex = /"/g;
+    return new Promise((resolve, reject) => resolve(string.replace(regex, '')));
+  },
 
 }
 
