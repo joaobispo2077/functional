@@ -4,7 +4,8 @@ const rootPath = ['..', 'data', 'legends'];
 const path = rootPath.concat('legendas_01.srt');
 
 util
-  .setPath(rootPath.concat('legendas_01.srt'))
-  .then(util.readFilePromisify)
+  .setPath(rootPath)
+  .then(util.readDirectory)
   .then(console.log)
-  .catch(console.log)
+  // .then(util.readFilePromisify)
+  // .catch(console.log)
