@@ -17,6 +17,11 @@ module.exports = {
       fs.readFile(path, (_, data) => resolve(data.toString()));
       console.log('promisify read file');
     })
+  },
+  filterFiles: (files) => {
+    const isCaptionFile = (file) => file.includes('.srt');
+
+    return new Promise((resolve, reject) => resolve(files.filter(isCaptionFile)));
   }
 
 }
