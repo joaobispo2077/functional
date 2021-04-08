@@ -1,10 +1,10 @@
 const util = require('./util');
 
-const path = require("path");
-
-const actualPath = path.join(__dirname, '..', 'data', 'legends', 'legendas_01.srt');
+const rootPath = ['..', 'data', 'legends'];
+const path = rootPath.concat('legendas_01.srt');
 
 util
-  .readFilePromisify(actualPath)
+  .setPath(rootPath.concat('legendas_01.srt'))
+  .then(util.readFilePromisify)
   .then(console.log)
   .catch(console.log)
