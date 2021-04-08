@@ -37,11 +37,19 @@ module.exports = {
     return new Promise((resolve, reject) => resolve(
       Promise.all(
         paths
-          .map((path) => module.exports.readFilePromisify(path))
+          .map(path => module.exports.readFilePromisify(path))
       )
-
-    ))
+    ));
   },
+  joinTexts: texts => {
+    return new Promise((resolve, reject) => resolve(texts.join()));
+  },
+  spliteByLineBreak: string => {
+    return new Promise((resolve, reject) => resolve(string.split('\n')));
+  },
+  spliteBySpaces: string => {
+    return new Promise((resolve, reject) => resolve(string.split(' ')));
+  }
 
 }
 
