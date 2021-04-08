@@ -86,6 +86,14 @@ module.exports = {
     const regex = /"/g;
     return new Promise((resolve, reject) => resolve(string.replace(regex, '')));
   },
+  removeInterrogation: string => {
+    const regex = /\?/g;
+    return new Promise((resolve, reject) => resolve(string.replace(regex, '')));
+  },
+  getNotEmpty: (array) => {
+    const isNotEmpty = (string) => string.trim().length !== 0;
+    return new Promise((resolve, reject) => resolve(array.filter(isNotEmpty)))
+  }
 
 }
 
