@@ -56,9 +56,7 @@ module.exports = {
       )
     ));
   },
-  joinTexts: texts => {
-    return new Promise((resolve, reject) => resolve(texts.join('\n')));
-  },
+  joinTextsByPattern: pattern => texts => texts.join(pattern),
   spliteByLineBreak: string => {
     return new Promise((resolve, reject) => resolve(string.split('\n')));
   },
@@ -152,24 +150,7 @@ module.exports = {
     const isNotEmpty = (string) => string.trim().length !== 0;
     return new Promise((resolve, reject) => resolve(array.filter(isNotEmpty)))
   },
-  getQuantityOfWords: (array) => {
-    return new Promise((resolve, reject) => resolve(array.reduce((acc, actualWord, index, words) => {
-      const quantity = words.filter(word => word === actualWord).length;
 
-      if (index === 0)
-        return Object.assign(acc, { [actualWord]: quantity });
-
-      const lastWord = words[index - 1];
-
-      if (quantity < acc[lastWord])
-        return Object.assign(acc, { [actualWord]: quantity });
-
-      if (quantity >= acc[lastWord])
-        return Object.assign({ [actualWord]: quantity }, acc);
-
-
-    }, {})))
-  }
 
 }
 

@@ -8,12 +8,25 @@ const rootPath = ['..', 'data', 'legends'];
 const simbols = [
   '♪', '.', '?', '-', ',', '"',
   '_', '\r', '[', ']', '(', ')',
-  '!', '<i>', '</i>'
+  '!', '<i>', '</i>', '\n', ':'
 ];
 
 const logAndPass = (item) => {
   console.log("logAndPass", item);
   return item;
+}
+
+
+const getQuantityOfWords = (array) => {
+  return array.reduce((acc, word, index, words) => {
+    let actualWord = word.toLowerCase();
+
+    if (acc[actualWord]) acc[actualWord] += 1;
+    else acc[actualWord] = 1;
+
+
+    return acc;
+  }, {});
 }
 
 util
@@ -23,15 +36,14 @@ util
   .then(util.filterByFinal('.srt'))
   .then((files) => util.setPaths(rootPath, files))
   .then(util.readFiles)
-  .then(util.joinTexts)
+  .then(util.joinTextsByPattern(' '))
   // .then(util.removeHTML)
   .then(util.spliteByLineBreak)
   .then(util.removeEmpty)
   .then(util.filterListNotIncluded('-->'))
   .then(util.removeIndexes)
   .then(util.removeSimbols(simbols))
-  .then(logAndPass)
-  // .then(util.joinTexts)
+  .then(util.joinTextsByPattern(' '))
   // .then(util.removeR)
   // .then(util.removeTimestamp)
   // .then(util.removeSquareBrackets)
@@ -44,8 +56,14 @@ util
   // .then(util.removeQuotationMarks)
   // .then(util.removeInterrogation)
   // .then(util.removeTwoDots)
-  // .then(util.spliteBySpaces)
+  .then(util.spliteBySpaces)
+  .then(util.removeEmpty)
+  .then(util.removeIndexes)
+  .then(getQuantityOfWords)
+  .then(logAndPass)
   // .then(util.getNotEmpty)
   // .then(util.getQuantityOfWords)
 
   .catch(console.log)
+
+
