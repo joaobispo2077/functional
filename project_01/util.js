@@ -90,9 +90,39 @@ module.exports = {
     const regex = /\?/g;
     return new Promise((resolve, reject) => resolve(string.replace(regex, '')));
   },
+  removeExclamation: string => {
+    const regex = /!/g;
+    return new Promise((resolve, reject) => resolve(string.replace(regex, '')));
+  },
+  removeSquareBrackets: string => {
+    const regex = /(\[\/?\s*[a-z][^>]*\])/g;
+    return new Promise((resolve, reject) => resolve(string.replace(regex, '')));
+  },
+  removeTwoDots: string => {
+    const regex = /:/g;
+    return new Promise((resolve, reject) => resolve(string.replace(regex, '')));
+  },
   getNotEmpty: (array) => {
     const isNotEmpty = (string) => string.trim().length !== 0;
     return new Promise((resolve, reject) => resolve(array.filter(isNotEmpty)))
+  },
+  getQuantityOfWords: (array) => {
+    return new Promise((resolve, reject) => resolve(array.reduce((acc, actualWord, index, words) => {
+      const quantity = words.filter(word => word === actualWord).length;
+      console.log(index)
+      if (index === 0)
+        return Object.assign(acc, { [actualWord]: quantity });
+
+      const lastWord = words[index - 1];
+
+      if (quantity < acc[lastWord])
+        return Object.assign(acc, { [actualWord]: quantity });
+
+      if (quantity >= acc[lastWord])
+        return Object.assign({ [actualWord]: quantity }, acc);
+
+
+    }, {})))
   }
 
 }
