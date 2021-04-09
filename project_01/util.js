@@ -4,24 +4,36 @@ const path = require("path");
 module.exports = {
   setPath: (paths) => {
     return new Promise((resolve, reject) => {
-      resolve(path.join(__dirname, ...paths));
+      try {
+        resolve(path.join(__dirname, ...paths));
+      } catch (err) {
+        reject(err);
+      }
     })
   },
   readDirectory: (directoryPath) => {
     return new Promise((resolve, reject) => {
-      fs.readdir(directoryPath, (_, files) => resolve(files));
+      try {
+        fs.readdir(directoryPath, (_, files) => resolve(files));
+      } catch (err) {
+        reject(err);
+      }
     });
   },
   readFilePromisify: (path) => {
     return new Promise((resolve, reject) => {
-      fs.readFile(path, (_, data) => resolve(data.toString()));
-      console.log('promisify read file');
+      try {
+        fs.readFile(path, (_, data) => resolve(data.toString()));
+        console.log('promisify read file');
+      } catch (err) {
+        reject(err);
+      }
     })
   },
-  filterFiles: (files) => {
-    const isCaptionFile = (file) => file.includes('.srt');
+  filterByFinal: (elements, pattern) => {
+    const isCaptionFile = (element) => element.endsWith(pattern);
 
-    return new Promise((resolve, reject) => resolve(files.filter(isCaptionFile)));
+    return new Promise((resolve, reject) => resolve(elements.filter(isCaptionFile)));
   },
   setPaths: (root, paths) => {
     return new Promise((resolve, reject) => resolve(
@@ -42,7 +54,7 @@ module.exports = {
     ));
   },
   joinTexts: texts => {
-    return new Promise((resolve, reject) => resolve(texts.join()));
+    return new Promise((resolve, reject) => resolve(texts.join('\n')));
   },
   spliteByLineBreak: string => {
     return new Promise((resolve, reject) => resolve(string.split('\n')));
@@ -102,6 +114,11 @@ module.exports = {
     const regex = /:/g;
     return new Promise((resolve, reject) => resolve(string.replace(regex, '')));
   },
+  removeEmpty: (elements) => {
+    const isEmpty = (element) => element.trim();
+
+    return new Promise((resolve, reject) => resolve(elements.filter(isEmpty)));
+  },
   getNotEmpty: (array) => {
     const isNotEmpty = (string) => string.trim().length !== 0;
     return new Promise((resolve, reject) => resolve(array.filter(isNotEmpty)))
@@ -109,7 +126,7 @@ module.exports = {
   getQuantityOfWords: (array) => {
     return new Promise((resolve, reject) => resolve(array.reduce((acc, actualWord, index, words) => {
       const quantity = words.filter(word => word === actualWord).length;
-      console.log(index)
+
       if (index === 0)
         return Object.assign(acc, { [actualWord]: quantity });
 
