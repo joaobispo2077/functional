@@ -30,10 +30,13 @@ module.exports = {
       }
     })
   },
-  filterByFinal: (elements, pattern) => {
+  filterByFinal: (pattern) => {
     const isCaptionFile = (element) => element.endsWith(pattern);
+    return function (elements) {
+      return elements.filter(isCaptionFile);
 
-    return new Promise((resolve, reject) => resolve(elements.filter(isCaptionFile)));
+    }
+
   },
   setPaths: (root, paths) => {
     return new Promise((resolve, reject) => resolve(
@@ -62,9 +65,11 @@ module.exports = {
   spliteBySpaces: string => {
     return new Promise((resolve, reject) => resolve(string.split(' ')));
   },
-  removeTimestamp: string => {
-    const regex = /((([0-9]{2}):){2}([0-9]{2}),([0-9]{3}))/g;
-    return new Promise((resolve, reject) => resolve(string.replace(regex, '')));
+  filterListNotIncluded: (pattern) => {
+    const hasPattern = (element) => !element.includes(pattern);
+    return function (elements) {
+      return elements.filter(hasPattern);
+    }
   },
   removeR: string => {
     const regex = /\r/g;
@@ -115,9 +120,33 @@ module.exports = {
     return new Promise((resolve, reject) => resolve(string.replace(regex, '')));
   },
   removeEmpty: (elements) => {
-    const isEmpty = (element) => element.trim();
+    const isNotEmpty = (element) => element.trim();
 
-    return new Promise((resolve, reject) => resolve(elements.filter(isEmpty)));
+    return new Promise((resolve, reject) => resolve(elements.filter(isNotEmpty)));
+  },
+  removeIndexes: (elements) => {
+    const isNotNumber = (candidate) => !(candidate !== 0 && !!candidate);
+
+    return elements.filter(element => {
+      const possibleNumber = parseInt(element.trim());
+      return isNotNumber(possibleNumber);
+    });
+  },
+  removeSimbols: simbols => {
+    return function (elements) {
+
+      return elements.map(element => {
+        let actualText = element;
+
+        simbols.forEach(simbol => {
+          actualText = actualText.split(String(simbol)).join('');
+        });
+
+        return actualText;
+      });
+
+    }
+
   },
   getNotEmpty: (array) => {
     const isNotEmpty = (string) => string.trim().length !== 0;

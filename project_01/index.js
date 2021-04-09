@@ -4,6 +4,12 @@ const util = require('./util');
 
 const rootPath = ['..', 'data', 'legends'];
 // const path = rootPath.concat('legendas_01.srt');
+// const regexTimestamp = /((([0-9]{2}):){2}([0-9]{2}),([0-9]{3}))/g;
+const simbols = [
+  '♪', '.', '?', '-', ',', '"',
+  '_', '\r', '[', ']', '(', ')',
+  '!', '<i>', '</i>'
+];
 
 const logAndPass = (item) => {
   console.log("logAndPass", item);
@@ -14,13 +20,16 @@ util
   .setPath(rootPath)
   .then(util.readDirectory)
   .then(logAndPass)
-  .then((files) => util.filterByFinal(files, '.srt'))
+  .then(util.filterByFinal('.srt'))
   .then((files) => util.setPaths(rootPath, files))
-  .then(logAndPass)
   .then(util.readFiles)
   .then(util.joinTexts)
+  // .then(util.removeHTML)
   .then(util.spliteByLineBreak)
   .then(util.removeEmpty)
+  .then(util.filterListNotIncluded('-->'))
+  .then(util.removeIndexes)
+  .then(util.removeSimbols(simbols))
   .then(logAndPass)
   // .then(util.joinTexts)
   // .then(util.removeR)
@@ -30,7 +39,6 @@ util
   // .then(util.removeArrow)
   // .then(util.removeComman)
   // .then(util.removeDash)
-  // .then(util.removeHTML)
   // .then(util.removeNumbers)
   // .then(util.removeDot)
   // .then(util.removeQuotationMarks)
@@ -39,6 +47,5 @@ util
   // .then(util.spliteBySpaces)
   // .then(util.getNotEmpty)
   // .then(util.getQuantityOfWords)
-  .then(logAndPass)
 
   .catch(console.log)
