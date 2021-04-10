@@ -150,7 +150,28 @@ module.exports = {
     const isNotEmpty = (string) => string.trim().length !== 0;
     return new Promise((resolve, reject) => resolve(array.filter(isNotEmpty)))
   },
+  groupElements: (array) => {
+    return Object.values(array.reduce((acc, word, index, words) => {
+      const actualWord = word.toLowerCase();
 
+      const quantity = acc[actualWord] ? acc[actualWord].quantity + 1 : 1;
+
+      acc[actualWord] = { word: actualWord, quantity };
+
+      return acc;
+    }, {}));
+  },
+  ordering: (attr, order = 'asc') => {
+    return function (array) {
+      const desc = (firstObject, secondObject) => secondObject[attr] - firstObject[attr];
+      const asc = (firstObject, secondObject) => firstObject[attr] - secondObject[attr];
+
+      const ordenation = order === 'asc' ? asc : desc;
+
+      return array.sort(ordenation);
+    }
+
+  }
 
 }
 
