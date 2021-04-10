@@ -89,13 +89,11 @@ module.exports = {
     return function (elements) {
 
       return elements.map(element => {
-        let actualText = element;
 
-        simbols.forEach(simbol => {
-          actualText = actualText.split(String(simbol)).join('');
-        });
+        return simbols.reduce((acc, simbol) => {
+          return acc.split(String(simbol)).join('');
+        }, element);
 
-        return actualText;
       });
 
     }
