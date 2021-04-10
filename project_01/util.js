@@ -69,54 +69,6 @@ module.exports = {
       return elements.filter(hasPattern);
     }
   },
-  removeR: string => {
-    const regex = /\r/g;
-    return new Promise((resolve, reject) => resolve(string.replace(regex, '')));
-  },
-  removeArrow: string => {
-    const regex = /-->/g;
-    return new Promise((resolve, reject) => resolve(string.replace(regex, '')));
-  },
-  removeComman: string => {
-    const regex = /,/g;
-    return new Promise((resolve, reject) => resolve(string.replace(regex, '')));
-  },
-  removeDash: string => {
-    const regex = /-/g;
-    return new Promise((resolve, reject) => resolve(string.replace(regex, '')));
-  },
-  removeHTML: string => {
-    const regex = /(<\/?\s*[a-z][^>]*>)/g;
-    return new Promise((resolve, reject) => resolve(string.replace(regex, '')));
-  },
-  removeNumbers: string => {
-    const regex = /([0-9]a?)/g;
-    return new Promise((resolve, reject) => resolve(string.replace(regex, '')));
-  },
-  removeDot: string => {
-    const regex = /\./g;
-    return new Promise((resolve, reject) => resolve(string.replace(regex, '')));
-  },
-  removeQuotationMarks: string => {
-    const regex = /"/g;
-    return new Promise((resolve, reject) => resolve(string.replace(regex, '')));
-  },
-  removeInterrogation: string => {
-    const regex = /\?/g;
-    return new Promise((resolve, reject) => resolve(string.replace(regex, '')));
-  },
-  removeExclamation: string => {
-    const regex = /!/g;
-    return new Promise((resolve, reject) => resolve(string.replace(regex, '')));
-  },
-  removeSquareBrackets: string => {
-    const regex = /(\[\/?\s*[a-z][^>]*\])/g;
-    return new Promise((resolve, reject) => resolve(string.replace(regex, '')));
-  },
-  removeTwoDots: string => {
-    const regex = /:/g;
-    return new Promise((resolve, reject) => resolve(string.replace(regex, '')));
-  },
   removeEmpty: (elements) => {
     const isNotEmpty = (element) => element.trim();
 
@@ -145,10 +97,6 @@ module.exports = {
 
     }
 
-  },
-  getNotEmpty: (array) => {
-    const isNotEmpty = (string) => string.trim().length !== 0;
-    return new Promise((resolve, reject) => resolve(array.filter(isNotEmpty)))
   },
   groupElements: (array) => {
     return Object.values(array.reduce((acc, word, index, words) => {
