@@ -17,7 +17,7 @@ const logAndPass = (item) => {
 }
 
 
-const getQuantityOfWords = (array) => {
+const groupElements = (array) => {
   return Object.values(array.reduce((acc, word, index, words) => {
     const actualWord = word.toLowerCase();
 
@@ -29,8 +29,16 @@ const getQuantityOfWords = (array) => {
   }, {}));
 }
 
-const ordering = obj => {
-  const list = Object.keys(obj);
+const ordering = (attr, order = 'asc') => {
+  return function (array) {
+    const desc = (firstObject, secondObject) => secondObject[attr] - firstObject[attr];
+    const asc = (firstObject, secondObject) => firstObject[attr] - secondObject[attr];
+
+    const ordenation = order === 'asc' ? asc : desc;
+
+    return array.sort(ordenation);
+  }
+
 }
 
 util
@@ -63,8 +71,8 @@ util
   .then(util.spliteBySpaces)
   .then(util.removeEmpty)
   .then(util.removeIndexes)
-  .then(getQuantityOfWords)
-  .then(ordering)
+  .then(groupElements)
+  .then(ordering('quantity', 'desc'))
   .then(logAndPass)
   // .then(util.getNotEmpty)
   // .then(util.getQuantityOfWords)
