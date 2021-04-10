@@ -1,6 +1,7 @@
 // Funções que operam outras Funções
 // tomando como argumentos ou retornando-as,
 // são chamadas de higher-order functions.
+// -recurso
 
 function executate(fn, ...params) {
   return function (text) {
