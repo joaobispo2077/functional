@@ -18,15 +18,19 @@ const logAndPass = (item) => {
 
 
 const getQuantityOfWords = (array) => {
-  return array.reduce((acc, word, index, words) => {
-    let actualWord = word.toLowerCase();
+  return Object.values(array.reduce((acc, word, index, words) => {
+    const actualWord = word.toLowerCase();
 
-    if (acc[actualWord]) acc[actualWord] += 1;
-    else acc[actualWord] = 1;
+    const quantity = acc[actualWord] ? acc[actualWord].quantity + 1 : 1;
 
+    acc[actualWord] = { word: actualWord, quantity };
 
     return acc;
-  }, {});
+  }, {}));
+}
+
+const ordering = obj => {
+  const list = Object.keys(obj);
 }
 
 util
@@ -60,6 +64,7 @@ util
   .then(util.removeEmpty)
   .then(util.removeIndexes)
   .then(getQuantityOfWords)
+  .then(ordering)
   .then(logAndPass)
   // .then(util.getNotEmpty)
   // .then(util.getQuantityOfWords)
