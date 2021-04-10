@@ -38,15 +38,18 @@ module.exports = {
     }
 
   },
-  setPaths: (root, paths) => {
-    return new Promise((resolve, reject) => resolve(
-      Promise
-        .all(
-          paths
-            .map((path) => module.exports.setPath(root.concat(path)))
-        )
-    )
-    )
+  setPaths: (root) => {
+    return function (paths) {
+      return new Promise((resolve, reject) => resolve(
+        Promise
+          .all(
+            paths
+              .map((path) => module.exports.setPath(root.concat(path)))
+          )
+      )
+      )
+
+    }
   },
   readFiles: (paths) => {
     return new Promise((resolve, reject) => resolve(

@@ -26,7 +26,7 @@ util
   .then(util.readDirectory)
   .then(logAndPass)
   .then(util.filterByFinal('.srt'))
-  .then((files) => util.setPaths(rootPath, files))
+  .then(util.setPaths(rootPath))
   .then(util.readFiles)
   .then(util.joinTextsByPattern(' '))
   .then(util.spliteByLineBreak)
