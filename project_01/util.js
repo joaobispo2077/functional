@@ -117,7 +117,7 @@ module.exports = {
 
       const ordenation = order === 'asc' ? asc : desc;
 
-      return array.sort(ordenation);
+      return [...array].sort(ordenation);
     }
 
   }
