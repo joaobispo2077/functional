@@ -1,0 +1,2 @@
+// 😈 - Função Impura
+// 😇 - Função Pura
