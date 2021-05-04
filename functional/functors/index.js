@@ -24,14 +24,23 @@ function securityType(value) {
         const transformedValue = fn(this.value);
         return securityType(transformedValue);
       }
-
+    },
+    flatMap(fn) {
+      return this.map(fn).value;
     }
   }
 }
 
 const result = securityType('teste2134')
-  .map(el => el.toUpperCase)
+  .map(el => el.toUpperCase())
   .map(el => `${el}!!!`)
   .map(el => el.split('').join(' '));
 
 console.log(result.value);
+
+const result2 = securityType('teste2134')
+  .map(el => el.toUpperCase())
+  .map(el => `${el}!!!`)
+  .flatMap(el => el.split('').join(' '));
+
+console.log(result2);
